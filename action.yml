@@ -98,7 +98,7 @@ runs:
           fi
       - name: Deploy to Updatesite
         if: ${{ env.DEPLOY_UPDATESITE == 'true' }}
-        uses: Nicolas-Boltz/PalladioDeploymentActionTest@main
+        uses: PalladioSimulator/Palladio-Build-ActionsPipeline-Deployment@v1
         with:
           remote-user: ${{ inputs.remote-user }}
           remote-host: ${{ inputs.remote-host }}
