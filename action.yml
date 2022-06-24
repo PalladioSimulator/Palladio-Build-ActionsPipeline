@@ -41,6 +41,10 @@ inputs:
     description: 'Java version for build. Default 11'
     required: false
     default: '11'
+  no-caching: # 
+    description: 'Skips caching of maven artifacts'
+    required: false
+    default: false
 
 runs:
   using: "composite"
@@ -54,6 +58,7 @@ runs:
         with:
           distribution: 'zulu'
           java-version: ${{ inputs.java-version }}
+          if: ${{ inputs.no-caching == 'false' }}
           cache: 'maven'
       - name: Verify with Maven
         shell: bash
