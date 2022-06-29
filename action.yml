@@ -41,6 +41,10 @@ inputs:
     description: 'Java version for build. Default 11'
     required: false
     default: '11'
+  use-cache: # 
+    description: 'Build with using the maven cache'
+    required: false
+    default: true
 
 runs:
   using: "composite"
@@ -59,9 +63,17 @@ runs:
         shell: bash
         run: |
           if ${{ inputs.use-display-output }}; then
-              DISPLAY=:0 mvn clean verify
+              if ${{ inputs.use-cache }}; then
+                DISPLAY=:0 mvn clean verify
+              else
+                DISPLAY=:0 mvn clean verify -U
+              fi
           else
-              mvn clean verify
+            if ${{ inputs.use-cache }}; then
+                mvn clean verify
+            else
+                mvn clean verify -U
+            fi
           fi
       - name: Check deployment
         shell: bash
