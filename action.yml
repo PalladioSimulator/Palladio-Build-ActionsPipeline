@@ -54,15 +54,15 @@ runs:
           repository: ${{ inputs.build-repository }}
           submodules: true
       - name: Set up JDK
+        if: inputs.no-caching == 'false'
         uses: actions/setup-java@v2
-        if: inputs.no-caching == 'true'
         with:
           distribution: 'zulu'
           java-version: ${{ inputs.java-version }}         
           cache: 'maven'
-      - name: Set up JDK
+      - name: Set up JDK (no cache)
+        if: inputs.no-caching == 'true'
         uses: actions/setup-java@v2
-        if: inputs.no-caching == 'false'
         with:
           distribution: 'zulu'
           java-version: ${{ inputs.java-version }}         
