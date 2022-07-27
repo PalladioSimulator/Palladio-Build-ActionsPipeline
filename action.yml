@@ -55,14 +55,14 @@ runs:
           submodules: true
       - name: Set up JDK
         if: inputs.no-caching == 'false'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3.4.1
         with:
           distribution: 'zulu'
           java-version: ${{ inputs.java-version }}         
           cache: 'maven'
       - name: Set up JDK (no cache)
         if: inputs.no-caching == 'true'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3.4.1
         with:
           distribution: 'zulu'
           java-version: ${{ inputs.java-version }}         
