@@ -1,28 +1,32 @@
 name: 'Palladio Build Pipeline'
-description: 'Build of Palladio Project'
 on:
   workflow_call:
     inputs:
         build-repository: # id of input
           description: 'Repository to build'
+          type: string
           required: false
           default:  ${{ github.repository }}
         use-display-output: # 
           description: 'If display output is needed for ui tesing'
+          type: boolean
           required: false
           default: false
         deploy-updatesite: # 
           description: 'Updatesite for deployment. If empty deployment is skipped'
+          type: string
           required: false
           default: ''
         skip-branch-deploy: # 
           description: 'Skip deployment of branches, default true'
+          type: boolean
           required: false
           default: true
         java-version: # 
           description: 'Java version for build. Default 11'
+          type: number
           required: false
-          default: '11'
+          default: 11
     secrets:
         SERVER_SSH_KEY: # 
           description: 'SSH Key for deployment'
