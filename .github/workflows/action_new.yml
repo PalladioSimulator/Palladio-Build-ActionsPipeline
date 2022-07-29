@@ -68,12 +68,14 @@ jobs:
       with:
         repository: ${{ inputs.build-repository }}
         submodules: true
+      
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
         java-version: ${{ inputs.java-version }}
         cache: 'maven'
+      
     - name: Verify with Maven
       shell: bash
       run: |
@@ -82,13 +84,7 @@ jobs:
         else
             mvn clean verify
         fi
-  
-  deployment_pre_job:
-    needs: build
-    runs-on: self-hosted
-    outputs:
-      skip_deployment: ${{ steps.deploy_check.outputs.deploy_updatesite }}
-    steps:
+      
     - name: Check deployment
       shell: bash
       run: |
@@ -103,23 +99,19 @@ jobs:
         else
             echo "SKIP_DEPLOY=true" >> $GITHUB_ENV
         fi
-    - name: Set output
-      id: deploy_check
-      run: echo '::set-output name=skip_deployment::${{ env.SKIP_DEPLOY }}
-  
-  deployment:
-    needs: deployment_pre_job
-    if: ${{ needs.deployment_pre_job.outputs.skip_deployment != 'true' }}
-    runs-on: self-hosted
-    name: "Deploy Palladio Artifact"
-    steps:
+      
     - name: Create folder name
+      if: ${{ env.SKIP_DEPLOY != 'true' }}
       shell: bash
       run: echo "DEPLOY_FOLDER=$( echo ${{ inputs.build-repository }} | cut -d'/' -f2 | sed -e 's/\(.*\)/\L\1/' )" >> $GITHUB_ENV
+      
     - name: Create project deployment path
+      if: ${{ env.SKIP_DEPLOY != 'true' }}
       shell: bash
       run: echo "PROJECT_DEPLOY_PATH=$( echo '${{ secrets.REMOTE_TARGET}}/${{ env.DEPLOY_FOLDER }}' )" >> $GITHUB_ENV
+      
     - name: Create Deployment Path
+      if: ${{ env.SKIP_DEPLOY != 'true' }}
       shell: bash
       run: |
         if ${{ github.ref_name == 'master' }} || ${{ github.ref_name == 'main' }} 
@@ -128,7 +120,9 @@ jobs:
         else
             echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/branches/${{ github.ref_name }}' )" >> $GITHUB_ENV
         fi
+      
     - name: Deploy to Updatesite
+      if: ${{ env.SKIP_DEPLOY != 'true' }}
       uses: PalladioSimulator/Palladio-Build-ActionsPipeline-Deployment@v1
       with:
         remote-user: ${{ secrets.REMOTE_USER }}
