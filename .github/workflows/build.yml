@@ -27,6 +27,11 @@ on:
           type: number
           required: false
           default: 11
+        runner-label: # 
+          description: 'Different runner tags'
+          type: string
+          required: false
+          default: 'self-hosted'
     secrets:
         SERVER_SSH_KEY: # 
           description: 'SSH Key for deployment'
@@ -47,7 +52,7 @@ on:
 jobs:
   build_pre_job:
     #still run this on self-hosted
-    runs-on: self-hosted
+    runs-on: ${{ inputs.runner-label }}
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
@@ -61,7 +66,7 @@ jobs:
     needs: build_pre_job
     if: ${{ needs.build_pre_job.outputs.should_skip != 'true' }}
     name: "Build Palladio Artifact"
-    runs-on: self-hosted
+    runs-on: ${{ inputs.runner-label }}
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
