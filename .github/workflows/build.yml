@@ -96,7 +96,7 @@ jobs:
           palladio-maven-java-${{ inputs.java-version }}
       
     - name: Verify with Maven
-      continue-on-error: true
+      if: success() || failure()
       shell: bash
       run: |
         if ${{ inputs.use-display-output }}; then
