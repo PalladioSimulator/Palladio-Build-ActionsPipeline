@@ -86,6 +86,7 @@ jobs:
         java-version: ${{ inputs.java-version }}
     
     - name: Cache local Maven repository
+      if: ${{ inputs.no-caching == false }}
       timeout-minutes: 10
       uses: actions/cache@v3
       with:
