@@ -87,6 +87,7 @@ jobs:
     
     - name: Cache local Maven repository
       if: ${{ inputs.no-caching == false }}
+      continue-on-error: true
       timeout-minutes: 15
       uses: actions/cache@v3
       with:
