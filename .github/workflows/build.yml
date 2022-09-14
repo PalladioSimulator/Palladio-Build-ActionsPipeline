@@ -65,7 +65,7 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           concurrent_skipping: 'same_content_newer'
-          skip_after_successful_duplicate: 'true'
+          do_not_skip: '["workflow_dispatch", "schedule"]'
   
   build:
     needs: build_pre_job
