@@ -2,7 +2,7 @@ name: 'Palladio Build Pipeline'
 on:
   workflow_call:
     inputs:
-        build-repository: # id of input
+        build-repository: #
           description: 'Repository to build'
           type: string
           required: false
@@ -23,10 +23,10 @@ on:
           required: false
           default: true
         java-version: # 
-          description: 'Java version for build. Default 11'
+          description: 'Java version for build. Default 17'
           type: number
           required: false
-          default: 11
+          default: 17
         runner-label: # 
           description: 'Different runner tags'
           type: string
@@ -37,6 +37,11 @@ on:
          type: boolean
          required: false
          default: false
+        release-version: # 
+          description: 'If a release version is set, the build artifact will be deployed as a release of the corresponding version'
+          type: number
+          required: false
+          default: 0.0
     secrets:
         SERVER_SSH_KEY: # 
           description: 'SSH Key for deployment'
@@ -136,7 +141,12 @@ jobs:
       run: |
         if ${{ github.ref_name == 'master' }} || ${{ github.ref_name == 'main' }} 
         then
-            echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/nightly' )" >> $GITHUB_ENV
+            if ${{ inputs.release-version != 0.0 }}
+            then
+                echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}releases/${{ inputs.release-version }}' )" >> $GITHUB_ENV
+            else
+                echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/nightly' )" >> $GITHUB_ENV
+            fi
         else
             echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/branches/${{ github.ref_name }}' )" >> $GITHUB_ENV
         fi
@@ -151,3 +161,9 @@ jobs:
         server-ssh-key: ${{ secrets.SERVER_SSH_KEY }}
         local-source: './${{ inputs.deploy-updatesite }}/*'
         remote-target: ${{ env.REMOTE_PATH }}
+        
+    - name: Change latest link
+      if: ${{ env.SKIP_DEPLOY != 'true' }} && ${{ inputs.release-version != 0.0 }}
+      shell: bash
+      run: |
+	    echo ln -sf ${{ env.REMOTE_PATH }} ${{ env.PROJECT_DEPLOY_PATH }}releases/latest
