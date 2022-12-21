@@ -139,16 +139,16 @@ jobs:
       if: ${{ env.SKIP_DEPLOY != 'true' }}
       shell: bash
       run: |
-        if ${{ github.ref_name == 'master' }} || ${{ github.ref_name == 'main' }} 
+        if ${{ inputs.release-version != 0.0 }}
         then
-            if ${{ inputs.release-version != 0.0 }}
-            then
-                echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}releases/${{ inputs.release-version }}' )" >> $GITHUB_ENV
-            else
-                echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/nightly' )" >> $GITHUB_ENV
-            fi
+            echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}releases/${{ inputs.release-version }}' )" >> $GITHUB_ENV
         else
-            echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/branches/${{ github.ref_name }}' )" >> $GITHUB_ENV
+            if ${{ github.ref_name == 'master' }} || ${{ github.ref_name == 'main' }} 
+            then
+                echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/nightly' )" >> $GITHUB_ENV
+            else
+                echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/branches/${{ github.ref_name }}' )" >> $GITHUB_ENV
+            fi
         fi
       
     - name: Deploy to Updatesite
