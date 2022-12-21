@@ -39,9 +39,9 @@ on:
          default: false
         release-version: # 
           description: 'If a release version is set, the build artifact will be deployed as a release of the corresponding version'
-          type: number
+          type: string
           required: false
-          default: 0.0
+          default: '0.0.0'
     secrets:
         SERVER_SSH_KEY: # 
           description: 'SSH Key for deployment'
@@ -139,7 +139,7 @@ jobs:
       if: ${{ env.SKIP_DEPLOY != 'true' }}
       shell: bash
       run: |
-        if ${{ inputs.release-version != 0.0 }}
+        if ${{ inputs.release-version != '0.0.0' }}
         then
             echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/releases/${{ inputs.release-version }}' )" >> $GITHUB_ENV
         else
@@ -163,7 +163,7 @@ jobs:
         remote-target: ${{ env.REMOTE_PATH }}
         
     - name: Change latest link
-      if: ${{ env.SKIP_DEPLOY != 'true' }} && ${{ inputs.release-version != 0.0 }}
+      if: ${{ env.SKIP_DEPLOY != 'true' }} && ${{ inputs.release-version != '0.0.0' }}
       shell: bash
       run: |
             echo ln -sf ${{ env.REMOTE_PATH }} ${{ env.PROJECT_DEPLOY_PATH }}releases/latest
