@@ -166,4 +166,4 @@ jobs:
       if: ${{ env.SKIP_DEPLOY != 'true' }} && ${{ inputs.release-version != 0.0 }}
       shell: bash
       run: |
-	    echo ln -sf ${{ env.REMOTE_PATH }} ${{ env.PROJECT_DEPLOY_PATH }}releases/latest
+            echo ln -sf ${{ env.REMOTE_PATH }} ${{ env.PROJECT_DEPLOY_PATH }}releases/latest
