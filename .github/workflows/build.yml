@@ -141,7 +141,7 @@ jobs:
       run: |
         if ${{ inputs.release-version != 0.0 }}
         then
-            echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}releases/${{ inputs.release-version }}' )" >> $GITHUB_ENV
+            echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/releases/${{ inputs.release-version }}' )" >> $GITHUB_ENV
         else
             if ${{ github.ref_name == 'master' }} || ${{ github.ref_name == 'main' }} 
             then
