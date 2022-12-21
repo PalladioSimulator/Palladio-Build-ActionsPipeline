@@ -115,7 +115,7 @@ jobs:
       run: |
         if ${{ github.event_name != 'pull_request' }} && ${{ github.ref_type == 'branch' }} && ${{ inputs.deploy-updatesite != '' }}
         then
-            if ${{ github.ref_name == 'master' }} || ${{ github.ref_name == 'main' }} || ${{ inputs.skip-branch-deploy == 'false' }} 
+            if ${{ github.ref_name == 'master' }} || ${{ github.ref_name == 'main' }} || ${{ inputs.skip-branch-deploy == false }} 
             then
                 echo "SKIP_DEPLOY=false" >> $GITHUB_ENV
             else 
