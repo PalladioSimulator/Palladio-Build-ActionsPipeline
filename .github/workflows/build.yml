@@ -153,7 +153,7 @@ jobs:
 
     - name: Deploy to Updatesite
       if: ${{ env.SKIP_DEPLOY != 'true' }}
-      uses: PalladioSimulator/Palladio-Build-ActionsPipeline-Deployment@releasedepl
+      uses: PalladioSimulator/Palladio-Build-ActionsPipeline-Deployment@v2
       with:
         remote-user: ${{ secrets.REMOTE_USER }}
         remote-host: ${{ secrets.REMOTE_HOST }}
