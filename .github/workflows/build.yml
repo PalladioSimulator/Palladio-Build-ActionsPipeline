@@ -151,12 +151,6 @@ jobs:
             fi
         fi
 
-    - name: Change latest link
-      if: ${{ env.SKIP_DEPLOY != 'true' }} && ${{ inputs.release-version != '0.0.0' }}
-      shell: bash
-      run: |
-            echo "RELEASE_DEPLOYMENT=true" >> $GITHUB_ENV
-
     - name: Deploy to Updatesite
       if: ${{ env.SKIP_DEPLOY != 'true' }}
       uses: PalladioSimulator/Palladio-Build-ActionsPipeline-Deployment@releasedepl
@@ -167,6 +161,6 @@ jobs:
         server-ssh-key: ${{ secrets.SERVER_SSH_KEY }}
         local-source: './${{ inputs.deploy-updatesite }}/*'
         remote-target: ${{ env.REMOTE_PATH }}
-        release-deployment: ${{ env.RELEASE_DEPLOYMENT }}
+        release-version: ${{ inputs.release-version }}
         link-path: ${{ env.PROJECT_DEPLOY_PATH }}
         
