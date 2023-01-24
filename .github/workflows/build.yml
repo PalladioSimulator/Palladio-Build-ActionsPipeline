@@ -100,15 +100,25 @@ jobs:
         key: palladio-maven-java-${{ inputs.java-version }}
         restore-keys: |
           palladio-maven-java-${{ inputs.java-version }}
-      
+    - name: Create maven goal
+      shell: bash
+      run: |
+        echo "MAVEN_COMMAND=mvn" >> $GITHUB_ENV
+        if ${{ inputs.release-version != '0.0.0' }}
+        then
+            echo "MAVEN_COMMAND=${{env.MAVEN_COMMAND}} -Drelease" >> $GITHUB_ENV
+        fi
+        if ${{ inputs.use-display-output }} 
+        then
+            echo "MAVEN_COMMAND=DISPLAY=:0  ${{ env.MAVEN_COMMAND }}" >> $GITHUB_ENV
+        fi
+        echo "MAVEN_COMMAND=${{ env.MAVEN_COMMAND }} clean verify" >> $GITHUB_ENV
+        
     - name: Verify with Maven
       shell: bash
       run: |
-        if ${{ inputs.use-display-output }}; then
-            DISPLAY=:0 mvn clean verify
-        else
-            mvn clean verify
-        fi
+        echo ${{ env.MAVEN_COMMAND }}
+        ${{ env.MAVEN_COMMAND }}
       
     - name: Check deployment
       shell: bash
