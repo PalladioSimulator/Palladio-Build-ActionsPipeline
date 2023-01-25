@@ -103,16 +103,16 @@ jobs:
     - name: Create maven goal
       shell: bash
       run: |
-        echo "MAVEN_COMMAND=mvn" >> $GITHUB_ENV
+        echo "MAVEN_COMMAND='mvn'" >> $GITHUB_ENV
         if ${{ inputs.release-version != '0.0.0' }}
         then
-            echo "MAVEN_COMMAND=${{env.MAVEN_COMMAND}} -Drelease" >> $GITHUB_ENV
+            echo "MAVEN_COMMAND=$( echo '${{env.MAVEN_COMMAND}} -Drelease' )" >> $GITHUB_ENV
         fi
         if ${{ inputs.use-display-output }} 
         then
-            echo "MAVEN_COMMAND=DISPLAY=:0  ${{ env.MAVEN_COMMAND }}" >> $GITHUB_ENV
+            echo "MAVEN_COMMAND=$( echo 'DISPLAY=:0  ${{ env.MAVEN_COMMAND }}' )" >> $GITHUB_ENV
         fi
-        echo "MAVEN_COMMAND=${{ env.MAVEN_COMMAND }} clean verify" >> $GITHUB_ENV
+        echo "MAVEN_COMMAND=$( echo '${{ env.MAVEN_COMMAND }} clean verify' )" >> $GITHUB_ENV
         
     - name: Verify with Maven
       shell: bash
