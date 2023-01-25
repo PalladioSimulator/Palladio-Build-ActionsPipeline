@@ -112,7 +112,7 @@ jobs:
         then
             MAVEN_COMMAND=$( echo DISPLAY=:0 ${MAVEN_COMMAND} )
         fi
-        echo "MAVEN_COMMAND=$( echo ${MAVEN_COMMAND clean verify )" >> $GITHUB_ENV
+        echo "MAVEN_COMMAND=$( echo ${MAVEN_COMMAND} clean verify )" >> $GITHUB_ENV
         
     - name: Verify with Maven
       shell: bash
