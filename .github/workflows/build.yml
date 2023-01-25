@@ -106,11 +106,11 @@ jobs:
         MAVEN_COMMAND='mvn'
         if ${{ inputs.release-version != '0.0.0' }}
         then
-            MAVEN_COMMAND=$( echo '$MAVEN_COMMAND -Drelease' )"
+            MAVEN_COMMAND=$( echo '$MAVEN_COMMAND -Drelease' )
         fi
         if ${{ inputs.use-display-output }} 
         then
-            MAVEN_COMMAND=$( echo 'DISPLAY=:0  $MAVEN_COMMAND' )"
+            MAVEN_COMMAND=$( echo 'DISPLAY=:0 $MAVEN_COMMAND' )
         fi
         echo "MAVEN_COMMAND=$( echo '$MAVEN_COMMAND clean verify' )" >> $GITHUB_ENV
         
