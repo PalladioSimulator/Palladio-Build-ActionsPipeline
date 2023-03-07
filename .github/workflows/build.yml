@@ -24,7 +24,7 @@ on:
           default: true
         java-version: # 
           description: 'Java version for build. Default 17'
-          type: number
+          type: string
           required: false
           default: 17
         runner-label: # 
@@ -85,9 +85,9 @@ jobs:
         submodules: true
       
     - name: Set up JDK
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v3.10.0
       with:
-        distribution: 'zulu'
+        distribution: 'temurin'
         java-version: ${{ inputs.java-version }}
     
     - name: Cache local Maven repository
