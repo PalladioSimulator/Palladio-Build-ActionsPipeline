@@ -106,9 +106,9 @@ jobs:
       shell: bash
       run: |
         if ${{ inputs.use-display-output }}; then
-            DISPLAY=:0 mvn clean verify
+            DISPLAY=:0 mvn -U clean verify
         else
-            mvn clean verify
+            mvn -U clean verify
         fi
       
     - name: Check deployment
