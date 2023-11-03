@@ -83,7 +83,7 @@ jobs:
       with:
         repository: ${{ inputs.build-repository }}
         submodules: true
-        ref: release5.2.0
+        ref: testingDay5.2.0
       
     - name: Set up JDK
       uses: actions/setup-java@v3.10.0
