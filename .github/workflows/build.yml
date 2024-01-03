@@ -83,7 +83,6 @@ jobs:
       with:
         repository: ${{ inputs.build-repository }}
         submodules: true
-        ref: testingDay5.2.0
       
     - name: Set up JDK
       uses: actions/setup-java@v3.10.0
@@ -106,9 +105,9 @@ jobs:
       shell: bash
       run: |
         if ${{ inputs.use-display-output }}; then
-            DISPLAY=:0 mvn -U clean verify
+            DISPLAY=:0 mvn -U clean verify -Drelease
         else
-            mvn -U clean verify
+            mvn -U clean verify -Drelease
         fi
       
     - name: Check deployment
