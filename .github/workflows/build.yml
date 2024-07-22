@@ -60,21 +60,7 @@ on:
           required: true
 
 jobs:
-  build_pre_job:
-    #still run this on self-hosted
-    runs-on: ${{ inputs.runner-label }}
-    outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
-    steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
-        with:
-          concurrent_skipping: 'same_content_newer'
-          do_not_skip: '["workflow_dispatch", "schedule"]'
-  
   build:
-    needs: build_pre_job
-    if: ${{ needs.build_pre_job.outputs.should_skip != 'true' }}
     name: "Build Palladio Artifact"
     runs-on: ${{ inputs.runner-label }}
     steps:
