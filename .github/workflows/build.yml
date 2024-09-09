@@ -80,7 +80,7 @@ jobs:
       if: ${{ inputs.no-caching == false }}
       continue-on-error: true
       timeout-minutes: 15
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.m2/repository
         key: palladio-maven-java-${{ inputs.java-version }}
