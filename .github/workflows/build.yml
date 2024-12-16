@@ -104,10 +104,15 @@ jobs:
     - name: Verify with Maven
       shell: bash
       run: |
-        if ${{ inputs.use-display-output }}; then
+        if ${{ inputs.release-version != '0.0.0' }}
+        then
             DISPLAY=:0 mvn -U clean verify -Drelease
         else
-            mvn -U clean verify -Drelease
+            if ${{ inputs.use-display-output }}; then
+                DISPLAY=:0 mvn clean verify
+            else
+                mvn clean verify
+            fi
         fi
       
     - name: Check deployment
