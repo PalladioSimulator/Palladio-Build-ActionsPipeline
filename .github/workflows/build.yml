@@ -36,7 +36,7 @@ on:
          description: 'Skips caching of maven artifacts'
          type: boolean
          required: false
-         default: false
+         default: true
         release-version: # 
           description: 'If a release version is set, the build artifact will be deployed as a release of the corresponding version'
           type: string
@@ -91,9 +91,9 @@ jobs:
       shell: bash
       run: |
         if ${{ inputs.use-display-output }}; then
-            DISPLAY=:0 mvn clean verify
+            DISPLAY=:0 mvn -U clean verify
         else
-            mvn clean verify
+            mvn -U clean verify
         fi
       
     - name: Check deployment
@@ -139,7 +139,7 @@ jobs:
 
     - name: Deploy to Updatesite
       if: ${{ env.SKIP_DEPLOY != 'true' }}
-      uses: PalladioSimulator/Palladio-Build-ActionsPipeline-Deployment@v3
+      uses: PalladioSimulator/Palladio-Build-ActionsPipeline-Deployment@master
       with:
         remote-user: ${{ secrets.REMOTE_USER }}
         remote-host: ${{ secrets.REMOTE_HOST }}
