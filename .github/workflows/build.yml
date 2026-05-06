@@ -90,10 +90,11 @@ jobs:
     - name: Verify with Maven
       shell: bash
       run: |
+        MAVEN_ARGS="-U clean verify ${{ inputs.release-version != '0.0.0' && '-DgenerateJavaDocForUpdatesite' || '' }}"
         if ${{ inputs.use-display-output }}; then
-            DISPLAY=:0 mvn -U clean verify
+            DISPLAY=:0 mvn $MAVEN_ARGS
         else
-            mvn -U clean verify
+            mvn $MAVEN_ARGS
         fi
       
     - name: Check deployment
