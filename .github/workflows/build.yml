@@ -59,6 +59,10 @@ on:
           description: 'Remote host target path'
           required: true
 
+permissions:
+  # Required to create GitHub tags
+  contents: write
+
 jobs:
   build:
     name: "Build Palladio Artifact"
@@ -151,3 +155,8 @@ jobs:
         release-version: ${{ inputs.release-version }}
         link-path: ${{ env.PROJECT_DEPLOY_PATH }}
         
+    - name: Create GitHub Tag
+      if: ${{ inputs.release-version != '0.0.0' }}
+      uses: rickstaa/action-create-tag@v1
+      with:
+        tag: releases/${{ inputs.release-version }}
