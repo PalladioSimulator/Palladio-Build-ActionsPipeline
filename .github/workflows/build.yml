@@ -159,5 +159,5 @@ jobs:
       if: ${{ inputs.release-version != '0.0.0' }}
       shell: bash
       run: |
-        git tag releases/${{ inputs.release-version }}
+        git tag -a v${{ inputs.release-version }} -m "tagging release version ${{ inputs.release-version }}"
         git push origin releases/${{ inputs.release-version }}
