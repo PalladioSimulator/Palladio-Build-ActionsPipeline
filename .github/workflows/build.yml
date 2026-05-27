@@ -160,4 +160,4 @@ jobs:
       shell: bash
       run: |
         git tag -a v${{ inputs.release-version }} -m "tagging release version ${{ inputs.release-version }}"
-        git push origin releases/${{ inputs.release-version }}
+        git push origin v${{ inputs.release-version }}
