@@ -157,6 +157,7 @@ jobs:
         
     - name: Create GitHub Tag
       if: ${{ inputs.release-version != '0.0.0' }}
-      uses: rickstaa/action-create-tag@v1
-      with:
-        tag: releases/${{ inputs.release-version }}
+      shell: bash
+      run: |
+        git tag releases/${{ inputs.release-version }}
+        git push origin releases/${{ inputs.release-version }}
