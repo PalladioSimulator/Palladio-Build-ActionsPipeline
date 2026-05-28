@@ -159,5 +159,7 @@ jobs:
       if: ${{ inputs.release-version != '0.0.0' }}
       shell: bash
       run: |
-        git tag -a v${{ inputs.release-version }} -m "tagging release version ${{ inputs.release-version }}"
-        git push origin v${{ inputs.release-version }}
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git tag -a releases/${{ inputs.release-version }} -m "tagging release version ${{ inputs.release-version }}"
+        git push origin releases/${{ inputs.release-version }}
