@@ -69,13 +69,13 @@ jobs:
     runs-on: ${{ inputs.runner-label }}
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         repository: ${{ inputs.build-repository }}
         submodules: true
       
     - name: Set up JDK
-      uses: actions/setup-java@v4.2.2
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: ${{ inputs.java-version }}
@@ -89,7 +89,7 @@ jobs:
       if: ${{ inputs.no-caching == false }}
       continue-on-error: true
       timeout-minutes: 15
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: ~/.m2/repository
         key: palladio-maven-java-${{ inputs.java-version }}
