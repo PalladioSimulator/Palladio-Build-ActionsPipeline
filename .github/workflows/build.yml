@@ -73,6 +73,10 @@ jobs:
       with:
         repository: ${{ inputs.build-repository }}
         submodules: true
+
+    - name: Clean up old Maven toolchains
+      run: rm -f ~/.m2/toolchains.xml
+      shell: bash
       
     - name: Set up JDK
       uses: actions/setup-java@v5
