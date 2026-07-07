@@ -31,7 +31,7 @@ on:
           description: 'Different runner tags'
           type: string
           required: false
-          default: 'self-hosted'
+          default: 'ubuntu-latest'
         no-caching: # 
          description: 'Skips caching of maven artifacts'
          type: boolean
